@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lynora's TSA Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #F7F3EC;
+    --white: #FFFFFF;
+    --ink: #2D261E;
+    --ink-soft: #5B5040;
+    --muted: #7A6E5A;
+    --faint: #9A8C72;
+    --border: #E9E0D2;
+    --clay: #C6672F;
+    --clay-soft: #FBEFE3;
+    --red: #B3462E;
+    --red-soft: #FBE7E2;
+    --green: #5B7350;
+    --green-soft: #EAEFE3;
+    --dark: #2D261E;
+    --dark-2: #3B3226;
+    --dark-border: #4E4434;
+    --gold: #D9A574;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Inter', system-ui, sans-serif; background: var(--ivory); color: var(--ink); }
+  a { text-decoration: none; color: inherit; }
+  button { font-family: inherit; cursor: pointer; }
+  .wrap { max-width: 1440px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; }
+
+  /* Nav */
+  .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 72px; background: var(--white); border-bottom: 1px solid var(--border); }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-mark { width: 38px; height: 38px; border-radius: 10px; background: var(--clay); display: flex; align-items: center; justify-content: center; color: #FFF8EF; font-family: 'Fraunces', serif; font-weight: 600; font-size: 19px; }
+  .brand-text { display: flex; flex-direction: column; line-height: 1.1; }
+  .brand-text .name { font-family: 'Fraunces', serif; font-weight: 600; font-size: 17px; }
+  .brand-text .sub { font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+  .nav-right { display: flex; align-items: center; gap: 40px; }
+  .navlink { font-size: 14px; font-weight: 500; color: var(--ink-soft); background: none; border: none; padding: 0; }
+  .navlink:hover { color: var(--ink); }
+  .avatar { width: 36px; height: 36px; border-radius: 50%; background: #EFE7DA; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 600; color: #6B5B3E; }
+
+  /* Hero */
+  .hero { padding: 64px 72px 40px; background: var(--dark); display: flex; flex-direction: column; gap: 22px; }
+  .eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); font-weight: 600; }
+  .hero h1 { margin: 0; max-width: 720px; font-family: 'Fraunces', serif; font-weight: 500; font-size: 46px; line-height: 1.15; color: #FFF8EF; }
+  .hero p { margin: 0; max-width: 560px; font-size: 16px; line-height: 1.6; color: #C9BFAE; }
+  .searchbar { display: flex; align-items: center; gap: 12px; margin-top: 10px; max-width: 520px; background: var(--dark-2); border: 1px solid var(--dark-border); border-radius: 10px; padding: 12px 16px; }
+  .searchbar input { flex-grow: 1; background: transparent; border: none; outline: none; font-size: 14px; color: #FFF8EF; font-family: 'Inter', sans-serif; }
+  .searchbar input::placeholder { color: #8A7A63; }
+  .searchbar button { background: none; border: none; padding: 4px; display: flex; align-items: center; }
+  .actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-top: 2px; }
+  .actionbtn { display: flex; align-items: center; gap: 8px; padding: 10px 16px; border-radius: 8px; font-size: 13.5px; font-weight: 600; border: none; }
+  .actionbtn:hover { filter: brightness(1.06); }
+  .actionbtn.primary { background: var(--clay); color: #FFF8EF; }
+  .actionbtn.secondary { background: var(--dark-2); border: 1px solid var(--dark-border); color: #FFF8EF; }
+
+  /* Sections */
+  .section { padding: 56px 72px 16px; display: flex; flex-direction: column; gap: 24px; }
+  .section h2 { margin: 0; font-family: 'Fraunces', serif; font-weight: 600; font-size: 22px; }
+  .grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; }
+  @media (max-width: 1100px) { .grid4 { grid-template-columns: repeat(2, minmax(0,1fr)); } .nav, .hero, .section, .footer { padding-left: 32px; padding-right: 32px; } .nav-right { gap: 20px; } }
+  @media (max-width: 620px) { .grid4 { grid-template-columns: 1fr; } }
+
+  .card { height: 100%; box-sizing: border-box; padding: 28px 24px; border-radius: 16px; display: flex; flex-direction: column; gap: 16px; transition: all .15s ease; border: 1px solid var(--border); background: var(--white); }
+  .card:hover { border-color: var(--clay); box-shadow: 0 10px 24px rgba(45,38,30,.08); transform: translateY(-2px); }
+  .card-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+  .card-title { font-size: 17px; font-weight: 600; }
+  .card-desc { font-size: 13.5px; line-height: 1.5; color: var(--muted); }
+  .card-cta { display: flex; align-items: center; gap: 6px; margin-top: auto; font-size: 13.5px; font-weight: 600; }
+  .card-cta svg { transition: transform .15s ease; }
+  .card:hover .card-cta svg { transform: translateX(4px); }
+  .card.dark { background: var(--dark); border-color: var(--dark); }
+  .card.dark .card-title { color: #FFF8EF; }
+  .card.dark .card-desc { color: #B7AB93; }
+
+  .noresults { padding: 28px; background: var(--white); border: 1px dashed #DCCFB8; border-radius: 16px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
+  .noresults .pill { display: inline-flex; align-items: center; gap: 6px; padding: 9px 16px; background: var(--clay-soft); border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--clay); }
+
+  .resource { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; transition: background .15s ease; max-width: 360px; }
+  .resource:hover { background: #EFE7DA; }
+  .resource-title { font-size: 14px; font-weight: 500; }
+  .resource-note { font-size: 13px; color: var(--faint); }
+
+  .footer { margin-top: auto; padding: 28px 72px; background: #EFE7DA; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid #E2D6C1; gap: 24px; flex-wrap: wrap; }
+  .footer-left { display: flex; flex-direction: column; gap: 6px; }
+  .footer-title { font-size: 14px; font-weight: 600; }
+  .footer-contact { font-size: 13.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .copybtn { background: none; border: none; padding: 0; color: var(--clay); font-weight: 600; font-size: 13.5px; display: inline-flex; align-items: center; gap: 4px; }
+  .copybtn:hover { text-decoration: underline; }
+  .copied-tag { color: var(--green); font-weight: 600; }
+  .footer-note { font-size: 11.5px; color: #A99B82; margin-top: 4px; }
+  .footer-right { font-size: 12px; color: var(--faint); white-space: nowrap; }
+
+  [data-searchable].hidden { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- Nav -->
+  <div class="nav">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div class="brand-text">
+        <span class="name">Lynora's</span>
+        <span class="sub">TSA Resource Portal</span>
+      </div>
+    </div>
+    <div class="nav-right">
+      <a href="#top" class="navlink">Home</a>
+      <a href="#resources" class="navlink">All Resources</a>
+      <button class="navlink" id="navContact">Contact TSA</button>
+      <div class="avatar">CP</div>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero" id="top">
+    <span class="eyebrow">Welcome back</span>
+    <h1>Everything the team needs to run service smoothly.</h1>
+    <p>Playbooks, emergency steps, and a direct line to TSA &mdash; all in one place for every Lynora's location.</p>
+
+    <div class="searchbar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9BFAE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="searchInput" placeholder="Search the playbook, forms, or a topic&hellip;">
+      <button id="clearSearch" aria-label="Clear search" style="display:none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A7A63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+
+    <div class="actions">
+      <button class="actionbtn primary" id="actionEmail" data-searchable data-keywords="email tsa directly celina contact copy">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFF8EF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        <span class="label">Copy TSA email</span>
+      </button>
+      <a class="actionbtn secondary" href="https://docs.google.com/forms/d/e/1FAIpQLSfM79XoRZn2Q5eJOLben7znJc7P9sCfOYfYoIi4cItm0yGodA/viewform" target="_blank" rel="noopener" data-searchable data-keywords="submit a ticket form quick action request">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9A574" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <span>Submit a ticket</span>
+      </a>
+      <a class="actionbtn secondary" href="https://celinaphal.github.io/lynoras-emergency-sop/" target="_blank" rel="noopener" data-searchable data-keywords="emergency sop procedures outage call escalation">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E38B6E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        <span>Emergency SOP</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Start here -->
+  <div class="section">
+    <h2>Start here</h2>
+
+    <div class="noresults" id="noResults" style="display:none;">
+      <span style="font-size:14px; color: var(--faint);">No matches for &ldquo;<span id="noResultsQuery"></span>&rdquo; on this page.</span>
+      <a class="pill" href="https://celinaphal.github.io/lynoras-tsa-playbook/" target="_blank" rel="noopener">
+        <span>Search the full IT Playbook</span>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#C6672F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+
+    <div class="grid4">
+      <a class="card" href="https://celinaphal.github.io/lynoras-tsa-playbook/" target="_blank" rel="noopener" data-searchable data-keywords="it playbook tsa playbook step by step guides pos wifi printers setup locations onboarding">
+        <div class="card-icon" style="background: var(--clay-soft);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C6672F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">IT Playbook</div>
+          <div class="card-desc">Step-by-step guides for POS, Wi-Fi, printers, and everyday setup across every location.</div>
+        </div>
+        <div class="card-cta" style="color: var(--clay);">
+          <span>Open playbook</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C6672F" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <a class="card" href="https://celinaphal.github.io/lynoras-emergency-sop/" target="_blank" rel="noopener" style="border-color:#F2CFC4;" data-searchable data-keywords="emergency sop procedures system outages pos down internet loss escalation call">
+        <div class="card-icon" style="background: var(--red-soft);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B3462E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        </div>
+        <div>
+          <div class="card-title">Emergency SOP</div>
+          <div class="card-desc">System outages, POS down, internet loss &mdash; what to do first, and who to call.</div>
+        </div>
+        <div class="card-cta" style="color: var(--red);">
+          <span>View procedures</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#B3462E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <a class="card dark" href="https://docs.google.com/forms/d/e/1FAIpQLSfM79XoRZn2Q5eJOLben7znJc7P9sCfOYfYoIi4cItm0yGodA/viewform" target="_blank" rel="noopener" data-searchable data-keywords="submit a ticket something broken need access track fix form request">
+        <div class="card-icon" style="background: var(--dark-2);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#D9A574" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <div>
+          <div class="card-title">Submit a Ticket</div>
+          <div class="card-desc">Something broken or need access? Send it to TSA and track the fix.</div>
+        </div>
+        <div class="card-cta" style="color: var(--gold);">
+          <span>New ticket</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#D9A574" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+
+      <a class="card" href="#resources" data-searchable data-keywords="further resources vendor contacts account logins onboarding guides training videos library">
+        <div class="card-icon" style="background: var(--green-soft);">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5B7350" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path><line x1="9" y1="7" x2="15" y2="7"></line><line x1="9" y1="11" x2="15" y2="11"></line></svg>
+        </div>
+        <div>
+          <div class="card-title">Further Resources</div>
+          <div class="card-desc">Vendor contacts, account logins, onboarding guides, and training videos.</div>
+        </div>
+        <div class="card-cta" style="color: var(--green);">
+          <span>Browse library</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5B7350" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Further resources -->
+  <div class="section" id="resources">
+    <div>
+      <h2>Further resources</h2>
+      <div class="resource-note">More get added here as they're built out.</div>
+    </div>
+    <div class="grid4">
+      <a class="resource" href="https://docs.google.com/spreadsheets/d/1dj5IHp3CSBmrJUk5RwsWpF65vLMM4dvVa5EJEr4jqx4/edit?gid=1922856056#gid=1922856056" target="_blank" rel="noopener" data-searchable data-keywords="master email list spreadsheet contacts directory roster">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A7A63" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+        <span class="resource-title">Master email list</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left">
+      <span class="footer-title">Still stuck?</span>
+      <span class="footer-contact">
+        <span>Reach out directly to</span>
+        <button class="copybtn" id="footerContact">
+          <span>celina@lynoras.com</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C6672F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        </button>
+        <span class="copied-tag" id="footerCopiedTag" style="display:none;">Copied!</span>
+      </span>
+      <span class="footer-note">Please avoid texting &mdash; submit a ticket or email instead.</span>
+    </div>
+    <span class="footer-right">Lynora's TSA &middot; internal use only</span>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  var EMAIL = 'celina@lynoras.com';
+
+  function copyEmail(onDone) {
+    function done() { if (onDone) onDone(); }
+    function fallback() {
+      try {
+        var ta = document.createElement('textarea');
+        ta.value = EMAIL;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.focus(); ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      } catch (e) {}
+      done();
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(EMAIL).then(done).catch(fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  // Nav "Contact TSA"
+  var navContact = document.getElementById('navContact');
+  navContact.addEventListener('click', function () {
+    var original = navContact.textContent;
+    copyEmail(function () {
+      navContact.textContent = 'Copied!';
+      setTimeout(function () { navContact.textContent = original; }, 1800);
+    });
+  });
+
+  // Quick action "Copy TSA email"
+  var actionEmail = document.getElementById('actionEmail');
+  var actionLabel = actionEmail.querySelector('.label');
+  actionEmail.addEventListener('click', function () {
+    var original = actionLabel.textContent;
+    copyEmail(function () {
+      actionLabel.textContent = 'Copied!';
+      setTimeout(function () { actionLabel.textContent = original; }, 1800);
+    });
+  });
+
+  // Footer email copy
+  var footerContact = document.getElementById('footerContact');
+  var footerCopiedTag = document.getElementById('footerCopiedTag');
+  footerContact.addEventListener('click', function () {
+    copyEmail(function () {
+      footerCopiedTag.style.display = 'inline';
+      setTimeout(function () { footerCopiedTag.style.display = 'none'; }, 1800);
+    });
+  });
+
+  // Search / filter
+  var input = document.getElementById('searchInput');
+  var clearBtn = document.getElementById('clearSearch');
+  var noResults = document.getElementById('noResults');
+  var noResultsQuery = document.getElementById('noResultsQuery');
+  var searchables = Array.prototype.slice.call(document.querySelectorAll('[data-searchable]'));
+
+  function runSearch() {
+    var q = input.value.trim().toLowerCase();
+    clearBtn.style.display = q ? 'flex' : 'none';
+
+    if (!q) {
+      searchables.forEach(function (el) { el.classList.remove('hidden'); });
+      noResults.style.display = 'none';
+      return;
+    }
+
+    var anyVisible = false;
+    searchables.forEach(function (el) {
+      var haystack = ((el.dataset.keywords || '') + ' ' + el.textContent).toLowerCase();
+      var match = haystack.indexOf(q) !== -1;
+      el.classList.toggle('hidden', !match);
+      if (match) anyVisible = true;
+    });
+
+    if (!anyVisible) {
+      noResultsQuery.textContent = input.value.trim();
+      noResults.style.display = 'flex';
+    } else {
+      noResults.style.display = 'none';
+    }
+  }
+
+  input.addEventListener('input', runSearch);
+  clearBtn.addEventListener('click', function () {
+    input.value = '';
+    runSearch();
+    input.focus();
+  });
+})();
+</script>
+</body>
+</html>
